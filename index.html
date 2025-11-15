@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Galactic Todo List - GitHub Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <h1>Galactic Todo List</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="stats-toggle" id="statsToggle" title="View Statistics">
+                        <i class="fas fa-chart-bar"></i>
+                    </button>
+                    <button class="help-button" id="helpButton" title="Workshop Guide">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">0% Complete</p>
+            </div>
+        </header>
+
+        <!-- Stats Panel (Hidden by default) -->
+        <div class="stats-panel hidden" id="statsPanel">
+            <h3><i class="fas fa-chart-line"></i> Your Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-tasks"></i>
+                    <div class="stat-value" id="totalTasks">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="stat-value" id="completedTasks">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-value" id="pendingTasks">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-fire"></i>
+                    <div class="stat-value" id="streak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section glass-panel">
+            <form id="todoForm" class="todo-form">
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="taskInput" 
+                        class="task-input" 
+                        placeholder="🚀 What's your mission today?"
+                        required
+                    >
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="categorySelect">
+                            <i class="fas fa-folder"></i> Category
+                        </label>
+                        <select id="categorySelect" class="category-select">
+                            <option value="work">💼 Work</option>
+                            <option value="personal">🏠 Personal</option>
+                            <option value="study">📚 Study</option>
+                            <option value="other">✨ Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prioritySelect">
+                            <i class="fas fa-flag"></i> Priority
+                        </label>
+                        <select id="prioritySelect" class="priority-select">
+                            <option value="high">🔴 High</option>
+                            <option value="medium">🟡 Medium</option>
+                            <option value="low">🟢 Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueDateInput">
+                            <i class="fas fa-calendar"></i> Due Date
+                        </label>
+                        <input type="date" id="dueDateInput" class="date-input">
+                    </div>
+                </div>
+
+                <button type="submit" class="add-button">
+                    <i class="fas fa-plus"></i> Launch Task
+                </button>
+            </form>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section glass-panel">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search tasks..."
+                >
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-list"></i> All
+                </button>
+                <button class="filter-btn" data-filter="active">
+                    <i class="fas fa-circle-notch"></i> Active
+                </button>
+                <button class="filter-btn" data-filter="completed">
+                    <i class="fas fa-check"></i> Completed
+                </button>
+            </div>
+
+            <button class="clear-completed" id="clearCompleted">
+                <i class="fas fa-trash"></i> Clear Completed
+            </button>
+        </div>
+
+        <!-- Todo List -->
+        <div class="todo-list-container glass-panel">
+            <div id="todoList" class="todo-list">
+                <!-- Tasks will be inserted here dynamically -->
+            </div>
+            
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-rocket"></i>
+                <h3>No missions yet!</h3>
+                <p>Start by adding your first task above</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                <i class="fas fa-code"></i> Built for GitHub Workshop | 
+                <a href="https://github.com" target="_blank">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </p>
+            <p class="shortcut-hint">
+                <i class="fas fa-keyboard"></i> 
+                Press <kbd>Ctrl</kbd> + <kbd>N</kbd> for new task
+            </p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Task completed!</span>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal hidden" id="helpModal">
+        <div class="modal-content glass-panel">
+            <button class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2><i class="fas fa-graduation-cap"></i> Workshop Guide</h2>
+            
+            <div class="help-content">
+                <div class="help-section">
+                    <h3><i class="fas fa-rocket"></i> Getting Started</h3>
+                    <p>Welcome to the GitHub Workshop! This todo app will help you learn Git and GitHub through hands-on practice.</p>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+                    <ul>
+                        <li><kbd>Ctrl</kbd> + <kbd>N</kbd> - Focus on new task input</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>F</kbd> - Focus on search</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>D</kbd> - Toggle dark/light theme</li>
+                        <li><kbd>Escape</kbd> - Clear search or close modals</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-lightbulb"></i> Features</h3>
+                    <ul>
+                        <li>✨ Add tasks with categories and priorities</li>
+                        <li>✅ Mark tasks as complete</li>
+                        <li>✏️ Edit tasks inline</li>
+                        <li>🗑️ Delete tasks you no longer need</li>
+                        <li>🔍 Search and filter your tasks</li>
+                        <li>📊 View your productivity statistics</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3><i class="fas fa-code-branch"></i> Workshop Exercises</h3>
+                    <p>Check out the README.md file for guided exercises on:</p>
+                    <ul>
+                        <li>Making your first commit</li>
+                        <li>Creating branches</li>
+                        <li>Submitting pull requests</li>
+                        <li>Resolving merge conflicts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
